@@ -82,7 +82,7 @@ const { data: masters, refresh: refreshMasters } = await useAsyncData(
     })
     return data || []
   },
-  { watch: [statusFilter] }
+  { server: false, watch: [statusFilter] }
 )
 
 async function updateStatus(masterId: number, status: string) {

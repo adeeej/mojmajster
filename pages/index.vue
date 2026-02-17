@@ -84,9 +84,10 @@ const searchCategory = ref('')
 const searchCity = ref('')
 
 const { data: categories } = await useAsyncData('categories', async () => {
-  const { data } = await client.from('categories').select('*').order('name')
+  const { data, error } = await client.from('categories').select('*').order('name')
+  if (error) console.error('Categories error:', error)
   return (data || []) as Category[]
-})
+}, { server: false })
 
 const { data: topMasters } = await useAsyncData('top-masters', async () => {
   const { data } = await client
@@ -96,7 +97,7 @@ const { data: topMasters } = await useAsyncData('top-masters', async () => {
     .eq('verified', true)
     .limit(6)
   return (data || []) as Master[]
-})
+}, { server: false })
 
 function getCategoryIcon(icon: string) {
   return categoryIconMap[icon] || '🔧'

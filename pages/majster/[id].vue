@@ -157,7 +157,7 @@ const { data: master } = await useAsyncData(`master-${slug}`, async () => {
     .eq('status', 'approved')
     .single()
   return data as Master | null
-})
+}, { server: false })
 
 const { data: photos } = await useAsyncData(`master-photos-${slug}`, async () => {
   if (!master.value) return []
@@ -167,7 +167,7 @@ const { data: photos } = await useAsyncData(`master-photos-${slug}`, async () =>
     .eq('master_id', master.value.id)
     .order('sort_order')
   return (data || []) as MasterPhoto[]
-})
+}, { server: false })
 
 const { data: reviews, refresh: refreshReviews } = await useAsyncData(`master-reviews-${slug}`, async () => {
   if (!master.value) return []
@@ -178,7 +178,7 @@ const { data: reviews, refresh: refreshReviews } = await useAsyncData(`master-re
     .eq('status', 'approved')
     .order('created_at', { ascending: false })
   return (data || []) as Review[]
-})
+}, { server: false })
 
 // Track profile view
 if (master.value) {

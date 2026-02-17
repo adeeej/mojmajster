@@ -155,7 +155,7 @@ const workPhotos = ref<MasterPhoto[]>([])
 const { data: categories } = await useAsyncData('profile-categories', async () => {
   const { data } = await client.from('categories').select('*').order('name')
   return (data || []) as Category[]
-})
+}, { server: false })
 
 const { data: master } = await useAsyncData('my-profile', async () => {
   if (!user.value) return null
@@ -165,7 +165,7 @@ const { data: master } = await useAsyncData('my-profile', async () => {
     .eq('user_id', user.value.id)
     .single()
   return data as Master | null
-})
+}, { server: false })
 
 // Load existing data
 if (master.value) {

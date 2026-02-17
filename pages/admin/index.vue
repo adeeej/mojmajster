@@ -72,7 +72,7 @@ const { data: stats } = await useAsyncData('admin-stats', async () => {
     totalLeads: leads.count || 0,
     totalReviews: reviews.count || 0,
   }
-})
+}, { server: false })
 
 const { data: pendingReviews, refresh: refreshReviews } = await useAsyncData('pending-reviews', async () => {
   const { data } = await client
@@ -82,7 +82,7 @@ const { data: pendingReviews, refresh: refreshReviews } = await useAsyncData('pe
     .order('created_at', { ascending: false })
     .limit(20)
   return (data || []) as Review[]
-})
+}, { server: false })
 
 async function updateReviewStatus(reviewId: number, status: 'approved' | 'rejected') {
   await $fetch(`/api/admin/reviews/${reviewId}`, {

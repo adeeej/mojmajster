@@ -55,7 +55,7 @@ const filters = reactive({
 const { data: categories } = await useAsyncData('search-categories', async () => {
   const { data } = await client.from('categories').select('*').order('name')
   return (data || []) as Category[]
-})
+}, { server: false })
 
 const { data: masters, refresh } = await useAsyncData(
   'search-masters',
@@ -79,7 +79,7 @@ const { data: masters, refresh } = await useAsyncData(
     const { data } = await query.limit(50)
     return (data || []) as Master[]
   },
-  { watch: [() => filters.category, () => filters.city] }
+  { watch: [() => filters.category, () => filters.city], server: false }
 )
 
 function applyFilters() {

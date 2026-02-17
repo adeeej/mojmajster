@@ -51,7 +51,7 @@ const newCategory = reactive({ name: '', slug: '', icon: 'wrench' })
 const { data: categories, refresh } = await useAsyncData('admin-categories', async () => {
   const { data } = await $fetch<{ data: Category[] }>('/api/admin/categories')
   return data || []
-})
+}, { server: false })
 
 function getCategoryIcon(icon: string) {
   return categoryIconMap[icon] || '🔧'
