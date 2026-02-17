@@ -50,7 +50,7 @@
     </section>
 
     <!-- Top Masters -->
-    <section v-if="topMasters.length > 0" class="py-16 bg-muted/30">
+    <section v-if="topMasters?.length" class="py-16 bg-muted/30">
       <div class="container mx-auto px-4">
         <h2 class="text-2xl font-bold mb-8 text-center">Top majstri</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
