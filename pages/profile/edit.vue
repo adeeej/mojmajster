@@ -137,7 +137,7 @@
         {{ $t('profile.save') }}
       </UiButton>
       <p v-if="saveSuccess" class="text-green-600 text-sm">{{ $t('profile.saveSuccess') }}</p>
-      <p v-if="saveError" class="text-destructive text-sm">{{ $t('profile.saveError') }}</p>
+      <p v-if="saveError" class="text-destructive text-sm">{{ $t('profile.saveError') }}: {{ saveErrorMsg }}</p>
     </form>
   </div>
 </template>
@@ -158,6 +158,7 @@ const client = useSupabaseClient()
 const saving = ref(false)
 const saveSuccess = ref(false)
 const saveError = ref(false)
+const saveErrorMsg = ref('')
 
 const form = reactive({
   name: '',
@@ -312,6 +313,7 @@ async function saveProfile() {
     if (error) {
       saving.value = false
       saveError.value = true
+      saveErrorMsg.value = error.message
       return
     }
   } else {
@@ -323,6 +325,7 @@ async function saveProfile() {
     if (error || !data) {
       saving.value = false
       saveError.value = true
+      saveErrorMsg.value = error?.message || 'Unknown error'
       return
     }
     masterId = data.id
