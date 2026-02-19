@@ -14,10 +14,7 @@
         <div>
           <h3 class="font-semibold mb-3">{{ $t('nav.search') }}</h3>
           <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><NuxtLink to="/search?category=murar" class="hover:text-foreground">{{ $t('footer.mason') }}</NuxtLink></li>
-            <li><NuxtLink to="/search?category=strechar" class="hover:text-foreground">{{ $t('footer.roofer') }}</NuxtLink></li>
-            <li><NuxtLink to="/search?category=elektrikar" class="hover:text-foreground">{{ $t('footer.electrician') }}</NuxtLink></li>
-            <li><NuxtLink to="/search?category=instalater" class="hover:text-foreground">{{ $t('footer.plumber') }}</NuxtLink></li>
+            <li><NuxtLink to="/search" class="hover:text-foreground">{{ $t('hero.searchButton') }}</NuxtLink></li>
           </ul>
         </div>
         <div>

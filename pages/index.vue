@@ -24,7 +24,7 @@
             :placeholder="$t('hero.locationPlaceholder')"
             class="flex-1"
           />
-          <UiButton type="submit" size="lg">
+          <UiButton type="submit">
             {{ $t('hero.searchButton') }}
           </UiButton>
         </form>
