@@ -165,7 +165,9 @@
     "description": "Označte dni kedy ste obsadení. Ostatné dni budú považované za voľné.",
     "free": "Voľný",
     "busy": "Obsadený",
-    "editHint": "Kliknite na deň pre označenie ako obsadený / voľný."
+    "editHint": "Kliknite alebo ťahajte cez dni pre označenie ako obsadený / voľný.",
+    "markMonthBusy": "Označiť celý mesiac ako obsadený",
+    "clearMonth": "Vymazať celý mesiac"
   },
   "common": {
     "loading": "Načítava sa...",
