@@ -100,6 +100,14 @@
       </div>
     </section>
 
+    <!-- Availability Calendar -->
+    <section v-if="master.show_availability" class="mb-8">
+      <h2 class="text-xl font-semibold mb-3">{{ $t('availability.title') }}</h2>
+      <UiCard class="p-4 max-w-sm">
+        <AvailabilityCalendar :master-id="master.id" :editable="false" />
+      </UiCard>
+    </section>
+
     <!-- Contact Form -->
     <section class="mb-8">
       <h2 class="text-xl font-semibold mb-3">{{ $t('contact.title') }}</h2>

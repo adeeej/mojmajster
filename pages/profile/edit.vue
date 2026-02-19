@@ -114,6 +114,25 @@
         </div>
       </div>
 
+      <!-- Availability calendar -->
+      <div v-if="master" class="border rounded-lg p-4 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="font-medium text-sm">{{ $t('availability.title') }}</p>
+            <p class="text-xs text-muted-foreground mt-0.5">{{ $t('availability.description') }}</p>
+          </div>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input
+              v-model="form.show_availability"
+              type="checkbox"
+              class="rounded"
+            />
+            <span class="text-sm">{{ $t('availability.enable') }}</span>
+          </label>
+        </div>
+        <AvailabilityCalendar v-if="form.show_availability" :master-id="master.id" :editable="true" />
+      </div>
+
       <UiButton type="submit" :disabled="saving" size="lg" class="w-full">
         {{ $t('profile.save') }}
       </UiButton>
@@ -154,6 +173,7 @@ const form = reactive({
   languages: ['SK'] as string[],
   ico: '',
   photo_url: '',
+  show_availability: false,
 })
 
 const workPhotos = ref<MasterPhoto[]>([])
@@ -189,6 +209,7 @@ if (master.value) {
     languages: master.value.languages || ['SK'],
     ico: master.value.ico || '',
     photo_url: master.value.photo_url || '',
+    show_availability: master.value.show_availability || false,
   })
 
   // Load work photos
@@ -278,6 +299,7 @@ async function saveProfile() {
     languages: form.languages,
     ico: form.ico || null,
     photo_url: form.photo_url || null,
+    show_availability: form.show_availability,
   }
 
   let masterId = master.value?.id

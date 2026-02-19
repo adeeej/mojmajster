@@ -159,6 +159,14 @@
     "electrician": "Elektrikár",
     "plumber": "Inštalatér"
   },
+  "availability": {
+    "title": "Dostupnosť",
+    "enable": "Zobraziť kalendár dostupnosti návštevníkom",
+    "description": "Označte dni kedy ste obsadení. Ostatné dni budú považované za voľné.",
+    "free": "Voľný",
+    "busy": "Obsadený",
+    "editHint": "Kliknite na deň pre označenie ako obsadený / voľný."
+  },
   "common": {
     "loading": "Načítava sa...",
     "save": "Uložiť",
