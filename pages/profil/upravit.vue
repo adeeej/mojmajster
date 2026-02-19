@@ -128,6 +128,12 @@ import type { Category, Master, MasterPhoto } from '~/types/database'
 
 definePageMeta({ middleware: 'auth' })
 
+// Redirect admin users away from the craftsman profile page
+const { data: adminCheck } = await useAsyncData('profile-admin-check', () => $fetch('/api/admin/check'))
+if (adminCheck.value?.isAdmin) {
+  await navigateTo('/admin')
+}
+
 const user = useSupabaseUser()
 const client = useSupabaseClient()
 const saving = ref(false)
