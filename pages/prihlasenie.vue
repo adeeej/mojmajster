@@ -43,7 +43,12 @@ async function handleLogin() {
   if (error) {
     errorMsg.value = error.message
   } else {
-    navigateTo('/profil/upravit')
+    const { data } = await useFetch('/api/admin/check')
+    if (data.value?.isAdmin) {
+      navigateTo('/admin')
+    } else {
+      navigateTo('/profil/upravit')
+    }
   }
 }
 
