@@ -44,8 +44,8 @@ async function handleLogin() {
   if (error) {
     errorMsg.value = t('auth.error')
   } else {
-    const { data } = await useFetch('/api/admin/check')
-    if (data.value?.isAdmin) {
+    const data = await $fetch('/api/admin/check')
+    if (data?.isAdmin) {
       navigateTo('/admin')
     } else {
       navigateTo('/profil/upravit')

@@ -53,6 +53,9 @@ async function handleRegister() {
   const { error } = await client.auth.signUp({
     email: email.value,
     password: password.value,
+    options: {
+      emailRedirectTo: 'https://mojmajster.vercel.app/prihlasenie',
+    },
   })
 
   loading.value = false
