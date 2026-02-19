@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'sk',
     lazy: false,
-    langDir: 'i18n/locales',
+    langDir: 'locales',
     strategy: 'prefix_except_default',
   },
 
