@@ -23,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
 const client = useSupabaseClient()
 
 const email = ref('')
@@ -41,7 +42,7 @@ async function handleLogin() {
 
   loading.value = false
   if (error) {
-    errorMsg.value = error.message
+    errorMsg.value = t('auth.error')
   } else {
     const { data } = await useFetch('/api/admin/check')
     if (data.value?.isAdmin) {
