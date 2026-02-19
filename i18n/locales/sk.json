@@ -167,7 +167,8 @@
     "busy": "Obsadený",
     "editHint": "Kliknite alebo ťahajte cez dni pre označenie ako obsadený / voľný.",
     "markMonthBusy": "Označiť celý mesiac ako obsadený",
-    "clearMonth": "Vymazať celý mesiac"
+    "clearMonth": "Vymazať celý mesiac",
+    "resetAll": "Vymazať všetko"
   },
   "common": {
     "loading": "Načítava sa...",

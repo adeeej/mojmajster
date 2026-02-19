@@ -20,8 +20,15 @@
       </button>
     </div>
 
-    <!-- Toggle whole month (edit mode only) -->
-    <div v-if="editable" class="flex justify-end mb-2">
+    <!-- Toggle whole month + Reset all (edit mode only) -->
+    <div v-if="editable" class="flex justify-between mb-2">
+      <button
+        type="button"
+        class="text-xs text-red-500 hover:text-red-700 underline underline-offset-2 transition-colors"
+        @click="resetAllDates"
+      >
+        {{ $t('availability.resetAll') }}
+      </button>
       <button
         type="button"
         class="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
@@ -254,6 +261,11 @@ async function onMouseUp() {
   }
 
   busyDates.value = new Set(busyDates.value)
+}
+
+async function resetAllDates() {
+  await client.from('master_availability').delete().eq('master_id', props.masterId)
+  await fetchBusyDates()
 }
 
 async function toggleWholeMonth() {
