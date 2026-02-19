@@ -5,8 +5,8 @@
     <!-- Admin Nav -->
     <div class="flex gap-4 mb-8">
       <NuxtLink to="/admin" class="text-primary font-medium">{{ $t('admin.dashboard') }}</NuxtLink>
-      <NuxtLink to="/admin/profily" class="text-muted-foreground hover:text-foreground">{{ $t('admin.profiles') }}</NuxtLink>
-      <NuxtLink to="/admin/kategorie" class="text-muted-foreground hover:text-foreground">{{ $t('admin.categories') }}</NuxtLink>
+      <NuxtLink to="/admin/profiles" class="text-muted-foreground hover:text-foreground">{{ $t('admin.profiles') }}</NuxtLink>
+      <NuxtLink to="/admin/categories" class="text-muted-foreground hover:text-foreground">{{ $t('admin.categories') }}</NuxtLink>
     </div>
 
     <!-- Stats Cards -->
@@ -48,7 +48,7 @@
         </div>
       </UiCard>
     </div>
-    <p v-else class="text-muted-foreground">Žiadne recenzie na schválenie.</p>
+    <p v-else class="text-muted-foreground">{{ $t('admin.noReviews') }}</p>
   </div>
 </template>
 

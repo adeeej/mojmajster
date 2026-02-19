@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="`/majster/${master.slug}`">
+  <NuxtLink :to="`/master/${master.slug}`">
     <UiCard class="overflow-hidden hover:shadow-md transition-shadow">
       <div class="aspect-[4/3] bg-muted flex items-center justify-center">
         <img

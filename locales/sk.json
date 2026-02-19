@@ -1,4 +1,9 @@
 {
+  "home": {
+    "topMasters": "Top majstri",
+    "ctaTitle": "Ste majster? Zaregistrujte sa zadarmo!",
+    "ctaText": "Získajte viditeľnosť v regióne Kysúc. Registrácia a profil sú 100% zadarmo."
+  },
   "site": {
     "name": "MojMajster",
     "tagline": "Nájdi majstra na Kysuciach",
@@ -60,7 +65,10 @@
     "messagePlaceholder": "Popíšte, čo potrebujete...",
     "send": "Odoslať dopyt",
     "success": "Dopyt bol odoslaný! Majster sa vám čoskoro ozve.",
-    "error": "Chyba pri odosielaní. Skúste to znova."
+    "error": "Chyba pri odosielaní. Skúste to znova.",
+    "intro": "Máte otázku? Napíšte nám a my sa vám ozveme.",
+    "submit": "Odoslať",
+    "successMessage": "Správa bola odoslaná!"
   },
   "review": {
     "title": "Pridať recenziu",
@@ -87,6 +95,7 @@
     "registerLink": "Zaregistrujte sa",
     "loginLink": "Prihláste sa",
     "error": "Chyba pri prihlásení. Skontrolujte údaje.",
+    "passwordMismatch": "Heslá sa nezhodujú.",
     "registerSuccess": "Registrácia úspešná! Skontrolujte email pre potvrdenie."
   },
   "profile": {
@@ -111,7 +120,8 @@
     "save": "Uložiť profil",
     "saveSuccess": "Profil bol uložený!",
     "saveError": "Chyba pri ukladaní. Skúste to znova.",
-    "pendingMessage": "Váš profil čaká na schválenie administrátorom."
+    "pendingMessage": "Váš profil čaká na schválenie administrátorom.",
+    "selectCategory": "Vyberte kategóriu"
   },
   "admin": {
     "dashboard": "Dashboard",
@@ -132,14 +142,22 @@
     "editCategory": "Upraviť kategóriu",
     "categoryName": "Názov",
     "categorySlug": "Slug",
-    "categoryIcon": "Ikona"
+    "categoryIcon": "Ikona",
+    "noReviews": "Žiadne recenzie na schválenie.",
+    "noProfiles": "Žiadne profily.",
+    "verified": "Overený"
   },
   "footer": {
     "rights": "Všetky práva vyhradené",
     "about": "O nás",
     "contact": "Kontakt",
     "privacy": "Ochrana súkromia",
-    "terms": "Podmienky používania"
+    "terms": "Podmienky používania",
+    "forMasters": "Pre majstrov",
+    "mason": "Murár",
+    "roofer": "Strechár",
+    "electrician": "Elektrikár",
+    "plumber": "Inštalatér"
   },
   "common": {
     "loading": "Načítava sa...",

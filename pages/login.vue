@@ -17,7 +17,7 @@
     </form>
     <p class="text-center text-sm text-muted-foreground mt-4">
       {{ $t('auth.noAccount') }}
-      <NuxtLink to="/registracia" class="text-primary hover:underline">{{ $t('auth.registerLink') }}</NuxtLink>
+      <NuxtLink to="/register" class="text-primary hover:underline">{{ $t('auth.registerLink') }}</NuxtLink>
     </p>
   </div>
 </template>
@@ -48,7 +48,7 @@ async function handleLogin() {
     if (data?.isAdmin) {
       navigateTo('/admin')
     } else {
-      navigateTo('/profil/upravit')
+      navigateTo('/profile/edit')
     }
   }
 }

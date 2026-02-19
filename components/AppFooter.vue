@@ -14,17 +14,17 @@
         <div>
           <h3 class="font-semibold mb-3">{{ $t('nav.search') }}</h3>
           <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><NuxtLink to="/hladaj?category=murar" class="hover:text-foreground">Murár</NuxtLink></li>
-            <li><NuxtLink to="/hladaj?category=strechar" class="hover:text-foreground">Strechár</NuxtLink></li>
-            <li><NuxtLink to="/hladaj?category=elektrikar" class="hover:text-foreground">Elektrikár</NuxtLink></li>
-            <li><NuxtLink to="/hladaj?category=instalater" class="hover:text-foreground">Inštalatér</NuxtLink></li>
+            <li><NuxtLink to="/search?category=murar" class="hover:text-foreground">{{ $t('footer.mason') }}</NuxtLink></li>
+            <li><NuxtLink to="/search?category=strechar" class="hover:text-foreground">{{ $t('footer.roofer') }}</NuxtLink></li>
+            <li><NuxtLink to="/search?category=elektrikar" class="hover:text-foreground">{{ $t('footer.electrician') }}</NuxtLink></li>
+            <li><NuxtLink to="/search?category=instalater" class="hover:text-foreground">{{ $t('footer.plumber') }}</NuxtLink></li>
           </ul>
         </div>
         <div>
-          <h3 class="font-semibold mb-3">Pre majstrov</h3>
+          <h3 class="font-semibold mb-3">{{ $t('footer.forMasters') }}</h3>
           <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><NuxtLink to="/registracia" class="hover:text-foreground">{{ $t('nav.register') }}</NuxtLink></li>
-            <li><NuxtLink to="/prihlasenie" class="hover:text-foreground">{{ $t('nav.login') }}</NuxtLink></li>
+            <li><NuxtLink to="/register" class="hover:text-foreground">{{ $t('nav.register') }}</NuxtLink></li>
+            <li><NuxtLink to="/login" class="hover:text-foreground">{{ $t('nav.login') }}</NuxtLink></li>
           </ul>
         </div>
       </div>

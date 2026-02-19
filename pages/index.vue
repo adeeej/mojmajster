@@ -39,7 +39,7 @@
           <NuxtLink
             v-for="cat in categories"
             :key="cat.id"
-            :to="`/hladaj?category=${cat.slug}`"
+            :to="`/search?category=${cat.slug}`"
             class="flex flex-col items-center gap-2 p-4 rounded-lg border hover:border-primary hover:bg-primary/5 transition-colors"
           >
             <span class="text-3xl">{{ getCategoryIcon(cat.icon) }}</span>
@@ -52,7 +52,7 @@
     <!-- Top Masters -->
     <section v-if="topMasters?.length" class="py-16 bg-muted/30">
       <div class="container mx-auto px-4">
-        <h2 class="text-2xl font-bold mb-8 text-center">Top majstri</h2>
+        <h2 class="text-2xl font-bold mb-8 text-center">{{ $t('home.topMasters') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <MasterCard v-for="master in topMasters" :key="master.id" :master="master" />
         </div>
@@ -62,11 +62,11 @@
     <!-- CTA for Masters -->
     <section class="py-16">
       <div class="container mx-auto px-4 text-center">
-        <h2 class="text-2xl font-bold mb-4">Ste majster? Zaregistrujte sa zadarmo!</h2>
+        <h2 class="text-2xl font-bold mb-4">{{ $t('home.ctaTitle') }}</h2>
         <p class="text-muted-foreground mb-6 max-w-xl mx-auto">
-          Získajte viditeľnosť v regióne Kysúc. Registrácia a profil sú 100% zadarmo.
+          {{ $t('home.ctaText') }}
         </p>
-        <NuxtLink to="/registracia">
+        <NuxtLink to="/register">
           <UiButton size="lg">{{ $t('nav.register') }}</UiButton>
         </NuxtLink>
       </div>
@@ -107,10 +107,11 @@ function handleSearch() {
   const query: Record<string, string> = {}
   if (searchCategory.value) query.category = searchCategory.value
   if (searchCity.value) query.city = searchCity.value
-  navigateTo({ path: '/hladaj', query })
+  navigateTo({ path: '/search', query })
 }
 
+const { t } = useI18n()
 useHead({
-  title: 'MojMajster - Nájdi majstra na Kysuciach',
+  title: `${t('site.name')} - ${t('site.tagline')}`,
 })
 </script>

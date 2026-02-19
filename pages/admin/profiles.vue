@@ -5,8 +5,8 @@
     <!-- Admin Nav -->
     <div class="flex gap-4 mb-8">
       <NuxtLink to="/admin" class="text-muted-foreground hover:text-foreground">{{ $t('admin.dashboard') }}</NuxtLink>
-      <NuxtLink to="/admin/profily" class="text-primary font-medium">{{ $t('admin.profiles') }}</NuxtLink>
-      <NuxtLink to="/admin/kategorie" class="text-muted-foreground hover:text-foreground">{{ $t('admin.categories') }}</NuxtLink>
+      <NuxtLink to="/admin/profiles" class="text-primary font-medium">{{ $t('admin.profiles') }}</NuxtLink>
+      <NuxtLink to="/admin/categories" class="text-muted-foreground hover:text-foreground">{{ $t('admin.categories') }}</NuxtLink>
     </div>
 
     <!-- Filter by status -->
@@ -28,7 +28,7 @@
           <div>
             <div class="flex items-center gap-2 mb-1">
               <h3 class="font-semibold">{{ m.name }}</h3>
-              <UiBadge v-if="m.verified" variant="success">Overený</UiBadge>
+              <UiBadge v-if="m.verified" variant="success">{{ $t('admin.verified') }}</UiBadge>
               <UiBadge
                 :variant="m.status === 'approved' ? 'success' : m.status === 'pending' ? 'warning' : 'destructive'"
               >
@@ -63,7 +63,7 @@
       </UiCard>
     </div>
 
-    <p v-if="!masters?.length" class="text-muted-foreground text-center py-8">Žiadne profily.</p>
+    <p v-if="!masters?.length" class="text-muted-foreground text-center py-8">{{ $t('admin.noProfiles') }}</p>
   </div>
 </template>
 

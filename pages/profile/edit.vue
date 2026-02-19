@@ -21,7 +21,7 @@
       <div>
         <label class="block text-sm font-medium mb-1">{{ $t('profile.category') }} *</label>
         <UiSelect v-model="form.category_id" required>
-          <option value="" disabled>Vyberte kategóriu</option>
+          <option value="" disabled>{{ $t('profile.selectCategory') }}</option>
           <option v-for="cat in categories" :key="cat.id" :value="cat.id">
             {{ cat.name }}
           </option>

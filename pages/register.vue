@@ -14,7 +14,7 @@
         <label class="block text-sm font-medium mb-1">{{ $t('auth.confirmPassword') }}</label>
         <UiInput v-model="confirmPassword" type="password" required minlength="6" />
       </div>
-      <p v-if="passwordMismatch" class="text-destructive text-sm">Heslá sa nezhodujú.</p>
+      <p v-if="passwordMismatch" class="text-destructive text-sm">{{ $t('auth.passwordMismatch') }}</p>
       <UiButton type="submit" class="w-full" :disabled="loading">
         {{ $t('auth.registerButton') }}
       </UiButton>
@@ -23,7 +23,7 @@
     </form>
     <p class="text-center text-sm text-muted-foreground mt-4">
       {{ $t('auth.hasAccount') }}
-      <NuxtLink to="/prihlasenie" class="text-primary hover:underline">{{ $t('auth.loginLink') }}</NuxtLink>
+      <NuxtLink to="/login" class="text-primary hover:underline">{{ $t('auth.loginLink') }}</NuxtLink>
     </p>
   </div>
 </template>
@@ -54,7 +54,7 @@ async function handleRegister() {
     email: email.value,
     password: password.value,
     options: {
-      emailRedirectTo: 'https://mojmajster.vercel.app/prihlasenie',
+      emailRedirectTo: 'https://mojmajster.vercel.app/login',
     },
   })
 

@@ -84,7 +84,7 @@ const { data: masters, refresh } = await useAsyncData(
 
 function applyFilters() {
   navigateTo({
-    path: '/hladaj',
+    path: '/search',
     query: {
       ...(filters.category && { category: filters.category }),
       ...(filters.city && { city: filters.city }),

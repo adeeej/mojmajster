@@ -5,8 +5,8 @@
     <!-- Admin Nav -->
     <div class="flex gap-4 mb-8">
       <NuxtLink to="/admin" class="text-muted-foreground hover:text-foreground">{{ $t('admin.dashboard') }}</NuxtLink>
-      <NuxtLink to="/admin/profily" class="text-muted-foreground hover:text-foreground">{{ $t('admin.profiles') }}</NuxtLink>
-      <NuxtLink to="/admin/kategorie" class="text-primary font-medium">{{ $t('admin.categories') }}</NuxtLink>
+      <NuxtLink to="/admin/profiles" class="text-muted-foreground hover:text-foreground">{{ $t('admin.profiles') }}</NuxtLink>
+      <NuxtLink to="/admin/categories" class="text-primary font-medium">{{ $t('admin.categories') }}</NuxtLink>
     </div>
 
     <!-- Add Category -->

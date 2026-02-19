@@ -9,15 +9,15 @@
       </NuxtLink>
 
       <nav class="hidden md:flex items-center gap-6">
-        <NuxtLink to="/hladaj" class="text-muted-foreground hover:text-foreground transition-colors">
+        <NuxtLink to="/search" class="text-muted-foreground hover:text-foreground transition-colors">
           {{ $t('nav.search') }}
         </NuxtLink>
         <template v-if="!user">
-          <NuxtLink to="/registracia" class="text-muted-foreground hover:text-foreground transition-colors">
+          <NuxtLink to="/register" class="text-muted-foreground hover:text-foreground transition-colors">
             {{ $t('nav.register') }}
           </NuxtLink>
           <NuxtLink
-            to="/prihlasenie"
+            to="/login"
             class="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
           >
             {{ $t('nav.login') }}
@@ -27,7 +27,7 @@
           <NuxtLink v-if="isAdmin" to="/admin" class="text-muted-foreground hover:text-foreground transition-colors">
             {{ $t('nav.admin') }}
           </NuxtLink>
-          <NuxtLink v-else to="/profil/upravit" class="text-muted-foreground hover:text-foreground transition-colors">
+          <NuxtLink v-else to="/profile/edit" class="text-muted-foreground hover:text-foreground transition-colors">
             {{ $t('nav.profile') }}
           </NuxtLink>
           <button
@@ -51,14 +51,14 @@
     <!-- Mobile menu -->
     <div v-if="mobileMenuOpen" class="md:hidden border-t bg-white">
       <nav class="container mx-auto px-4 py-4 flex flex-col gap-3">
-        <NuxtLink to="/hladaj" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
+        <NuxtLink to="/search" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
           {{ $t('nav.search') }}
         </NuxtLink>
         <template v-if="!user">
-          <NuxtLink to="/registracia" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
+          <NuxtLink to="/register" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
             {{ $t('nav.register') }}
           </NuxtLink>
-          <NuxtLink to="/prihlasenie" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
+          <NuxtLink to="/login" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
             {{ $t('nav.login') }}
           </NuxtLink>
         </template>
@@ -66,7 +66,7 @@
           <NuxtLink v-if="isAdmin" to="/admin" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
             {{ $t('nav.admin') }}
           </NuxtLink>
-          <NuxtLink v-else to="/profil/upravit" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
+          <NuxtLink v-else to="/profile/edit" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
             {{ $t('nav.profile') }}
           </NuxtLink>
           <button class="text-left text-muted-foreground hover:text-foreground" @click="handleLogout">
