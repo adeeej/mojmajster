@@ -24,7 +24,10 @@
           </NuxtLink>
         </template>
         <template v-else>
-          <NuxtLink to="/profil/upravit" class="text-muted-foreground hover:text-foreground transition-colors">
+          <NuxtLink v-if="isAdmin" to="/admin" class="text-muted-foreground hover:text-foreground transition-colors">
+            {{ $t('nav.admin') }}
+          </NuxtLink>
+          <NuxtLink v-else to="/profil/upravit" class="text-muted-foreground hover:text-foreground transition-colors">
             {{ $t('nav.profile') }}
           </NuxtLink>
           <button
@@ -60,7 +63,10 @@
           </NuxtLink>
         </template>
         <template v-else>
-          <NuxtLink to="/profil/upravit" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
+          <NuxtLink v-if="isAdmin" to="/admin" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
+            {{ $t('nav.admin') }}
+          </NuxtLink>
+          <NuxtLink v-else to="/profil/upravit" class="text-muted-foreground hover:text-foreground" @click="mobileMenuOpen = false">
             {{ $t('nav.profile') }}
           </NuxtLink>
           <button class="text-left text-muted-foreground hover:text-foreground" @click="handleLogout">
@@ -76,6 +82,11 @@
 const user = useSupabaseUser()
 const client = useSupabaseClient()
 const mobileMenuOpen = ref(false)
+
+const { data: adminCheck } = await useAsyncData('header-admin-check', () =>
+  user.value ? $fetch('/api/admin/check') : Promise.resolve({ isAdmin: false })
+)
+const isAdmin = computed(() => adminCheck.value?.isAdmin ?? false)
 
 async function handleLogout() {
   await client.auth.signOut()
