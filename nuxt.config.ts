@@ -22,10 +22,10 @@ export default defineNuxtConfig({
       { code: 'en', name: 'English', file: 'en.json' },
     ],
     defaultLocale: 'sk',
-    fallbackLocale: 'sk',
     lazy: false,
     langDir: 'locales',
     strategy: 'prefix_except_default',
+    vueI18n: './i18n.config.ts',
   },
 
   app: {

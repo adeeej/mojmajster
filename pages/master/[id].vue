@@ -196,13 +196,15 @@ const { data: reviews, refresh: refreshReviews } = await useAsyncData(`master-re
 // Response rate is stored on the master record (updated when master marks leads as answered)
 const responseRate = computed(() => master.value?.response_rate ?? null)
 
-// Track profile view
-if (master.value) {
-  client.from('analytics_events').insert({
-    master_id: master.value.id,
-    event_type: 'profile_view',
-  })
-}
+// Track profile view on client after mount (master.value is guaranteed to be loaded)
+onMounted(() => {
+  if (master.value) {
+    client.from('analytics_events').insert({
+      master_id: master.value.id,
+      event_type: 'profile_view',
+    })
+  }
+})
 
 function getCategoryIcon(icon?: string) {
   return categoryIconMap[icon || 'wrench'] || '🔧'
