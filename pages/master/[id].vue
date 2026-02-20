@@ -15,6 +15,7 @@
         <div class="flex items-center gap-3 mb-2">
           <h1 class="text-3xl font-bold">{{ master.name }}</h1>
           <UiBadge v-if="master.verified" variant="success">{{ $t('master.verified') }}</UiBadge>
+          <!-- TODO: Premium - add "Premium" badge here for is_premium masters (highlighted border + badge) -->
         </div>
         <p v-if="master.business_name" class="text-lg text-muted-foreground mb-1">{{ master.business_name }}</p>
         <p class="text-muted-foreground mb-3">
@@ -42,6 +43,9 @@
           <UiBadge variant="secondary">{{ $t('master.radius') }}: {{ master.service_radius_km }} km</UiBadge>
           <UiBadge v-for="lang in master.languages" :key="lang" variant="outline">{{ lang }}</UiBadge>
           <UiBadge v-if="master.ico" variant="outline">{{ $t('master.ico') }}: {{ master.ico }}</UiBadge>
+          <UiBadge v-if="master.year_founded" variant="outline">{{ $t('master.yearFounded') }} {{ master.year_founded }}</UiBadge>
+          <UiBadge v-if="master.completed_projects" variant="outline">{{ master.completed_projects }}+ {{ $t('master.completedProjects') }}</UiBadge>
+          <UiBadge v-if="responseRate !== null && master.response_rate_count >= 3" variant="outline">{{ $t('master.responseRate') }}: {{ responseRate }}%</UiBadge>
         </div>
       </div>
     </div>
@@ -128,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Master, MasterPhoto, Review } from '~/types/database'
+import type { Lead, Master, MasterPhoto, Review } from '~/types/database'
 import { categoryIconMap } from '~/composables/useCategories'
 
 const route = useRoute()
@@ -187,6 +191,9 @@ const { data: reviews, refresh: refreshReviews } = await useAsyncData(`master-re
     .order('created_at', { ascending: false })
   return (data || []) as Review[]
 }, { server: false })
+
+// Response rate is stored on the master record (updated when master marks leads as answered)
+const responseRate = computed(() => master.value?.response_rate ?? null)
 
 // Track profile view
 if (master.value) {

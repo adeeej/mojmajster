@@ -31,6 +31,10 @@ export interface Master {
   verified: boolean
   status: MasterStatus
   photo_url: string | null
+  year_founded: number | null
+  completed_projects: number | null
+  response_rate: number | null
+  response_rate_count: number
   created_at: string
   updated_at: string
   // Joined
@@ -69,6 +73,7 @@ export interface Lead {
   message: string
   created_at: string
   read_at: string | null
+  responded_at: string | null
 }
 
 export interface AnalyticsEvent {

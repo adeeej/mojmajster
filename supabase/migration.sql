@@ -175,6 +175,16 @@ CREATE TRIGGER masters_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at();
 
+-- Add experience fields to masters
+ALTER TABLE masters ADD COLUMN IF NOT EXISTS year_founded INT;
+ALTER TABLE masters ADD COLUMN IF NOT EXISTS completed_projects INT;
+-- response_rate: 0-100, updated when master marks leads as answered. Only shown when response_rate_count >= 3.
+ALTER TABLE masters ADD COLUMN IF NOT EXISTS response_rate INT;
+ALTER TABLE masters ADD COLUMN IF NOT EXISTS response_rate_count INT NOT NULL DEFAULT 0;
+
+-- Add response tracking to leads
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS responded_at TIMESTAMPTZ;
+
 -- View for master with average rating
 CREATE OR REPLACE VIEW masters_with_ratings AS
 SELECT

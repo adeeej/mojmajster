@@ -64,6 +64,8 @@ const { data: masters, refresh } = await useAsyncData(
       .from('masters')
       .select('*, category:categories(*)')
       .eq('status', 'approved')
+      // TODO: Premium - add .order('is_premium', { ascending: false }) as first sort key
+      // Premium masters appear at the top of search results
       .order('verified', { ascending: false })
       .order('created_at', { ascending: false })
 

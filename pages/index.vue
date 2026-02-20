@@ -90,6 +90,8 @@ const { data: categories } = await useAsyncData('categories', async () => {
 }, { server: false })
 
 const { data: topMasters } = await useAsyncData('top-masters', async () => {
+  // TODO: Premium - sort by is_premium DESC first, then by avg_rating or created_at
+  // Premium masters appear higher in Top Masters section on homepage
   const { data } = await client
     .from('masters')
     .select('*, category:categories(*)')

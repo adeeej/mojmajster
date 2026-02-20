@@ -19,8 +19,8 @@
     "logout": "Odhlásiť sa"
   },
   "hero": {
-    "title": "Nájdite overených majstrov na Kysuciach",
-    "subtitle": "Murári, strechári, elektrikári a ďalší remeselníci vo vašom okolí",
+    "title": "Nájdite overeného majstra na Kysuciach za pár minút",
+    "subtitle": "Overení murári, strechári, elektrikári a ďalší remeselníci vo vašom okolí. Zadarmo, rýchlo, bez registrácie.",
     "searchPlaceholder": "Aké remeslo hľadáte?",
     "locationPlaceholder": "Mesto alebo obec",
     "searchButton": "Hľadať"
@@ -54,7 +54,11 @@
     "ico": "IČO",
     "website": "Webová stránka",
     "noPhotos": "Zatiaľ žiadne fotky",
-    "noReviews": "Zatiaľ žiadne recenzie"
+    "noReviews": "Zatiaľ žiadne recenzie",
+    "yearFounded": "Na trhu od",
+    "completedProjects": "realizácií",
+    "responseRate": "Miera odpovedí",
+    "respondedFast": "Odpovedá rýchlo"
   },
   "contact": {
     "title": "Pošlite dopyt",
@@ -121,7 +125,9 @@
     "saveSuccess": "Profil bol uložený!",
     "saveError": "Chyba pri ukladaní. Skúste to znova.",
     "pendingMessage": "Váš profil čaká na schválenie administrátorom.",
-    "selectCategory": "Vyberte kategóriu"
+    "selectCategory": "Vyberte kategóriu",
+    "yearFounded": "Rok založenia / začiatok podnikania",
+    "completedProjects": "Počet realizácií (orientačne)"
   },
   "admin": {
     "dashboard": "Dashboard",
@@ -192,6 +198,8 @@
     "phone": "Tel.",
     "message": "Správa",
     "received": "Prijaté",
-    "new": "Nový"
+    "new": "Nový",
+    "markAnswered": "Označiť ako odpovedané",
+    "answered": "Odpovedané"
   }
 }

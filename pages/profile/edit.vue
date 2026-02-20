@@ -34,11 +34,20 @@
             <div class="flex items-center gap-2">
               <span class="font-medium">{{ lead.name }}</span>
               <UiBadge v-if="!lead.read_at" variant="secondary" class="text-xs">{{ $t('leads.new') }}</UiBadge>
+              <UiBadge v-if="lead.responded_at" variant="success" class="text-xs">{{ $t('leads.answered') }}</UiBadge>
             </div>
             <span class="text-xs text-muted-foreground shrink-0">{{ formatDate(lead.created_at) }}</span>
           </div>
           <p v-if="lead.phone" class="text-xs text-muted-foreground mb-1">{{ $t('leads.phone') }}: {{ lead.phone }}</p>
-          <p class="text-sm text-muted-foreground">{{ lead.message }}</p>
+          <p class="text-sm text-muted-foreground mb-2">{{ lead.message }}</p>
+          <UiButton
+            v-if="!lead.responded_at"
+            size="sm"
+            variant="outline"
+            @click="markLeadAnswered(lead)"
+          >
+            {{ $t('leads.markAnswered') }}
+          </UiButton>
         </UiCard>
       </div>
       <p v-else class="text-muted-foreground text-sm">{{ $t('leads.noLeads') }}</p>
@@ -109,6 +118,17 @@
         </div>
       </div>
 
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">{{ $t('profile.yearFounded') }}</label>
+          <UiInput v-model.number="form.year_founded" type="number" min="1950" :max="new Date().getFullYear()" placeholder="napr. 2010" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">{{ $t('profile.completedProjects') }}</label>
+          <UiInput v-model.number="form.completed_projects" type="number" min="0" placeholder="napr. 120" />
+        </div>
+      </div>
+
       <div>
         <label class="block text-sm font-medium mb-1">{{ $t('profile.languages') }}</label>
         <div class="flex flex-wrap gap-2">
@@ -137,6 +157,7 @@
       <!-- Work Photos -->
       <div>
         <label class="block text-sm font-medium mb-1">{{ $t('profile.workPhotos') }}</label>
+        <!-- TODO: Premium - limit free tier to 5 photos, Premium gets unlimited -->
         <input type="file" accept="image/*" multiple class="text-sm" @change="handleWorkPhotosUpload" />
         <div v-if="workPhotos.length > 0" class="mt-2 grid grid-cols-4 gap-2">
           <div v-for="(photo, i) in workPhotos" :key="i" class="aspect-square rounded-lg overflow-hidden relative">
@@ -213,6 +234,8 @@ const form = reactive({
   ico: '',
   photo_url: '',
   show_availability: false,
+  year_founded: null as number | null,
+  completed_projects: null as number | null,
 })
 
 const workPhotos = ref<MasterPhoto[]>([])
@@ -253,6 +276,8 @@ if (master.value) {
     ico: master.value.ico || '',
     photo_url: master.value.photo_url || '',
     show_availability: master.value.show_availability || false,
+    year_founded: master.value.year_founded ?? null,
+    completed_projects: master.value.completed_projects ?? null,
   })
 
   // Load work photos
@@ -289,6 +314,19 @@ if (master.value) {
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('sk-SK')
+}
+
+async function markLeadAnswered(lead: Lead) {
+  const now = new Date().toISOString()
+  await client.from('leads').update({ responded_at: now }).eq('id', lead.id)
+  lead.responded_at = now
+
+  // Recalculate response rate and persist to masters record
+  if (!master.value) return
+  const total = leads.value.length
+  const answered = leads.value.filter(l => l.responded_at).length
+  const rate = total > 0 ? Math.round((answered / total) * 100) : 0
+  await client.from('masters').update({ response_rate: rate, response_rate_count: total }).eq('id', master.value.id)
 }
 
 function toggleLanguage(lang: string) {
@@ -370,6 +408,8 @@ async function saveProfile() {
     ico: form.ico || null,
     photo_url: form.photo_url || null,
     show_availability: form.show_availability,
+    year_founded: form.year_founded || null,
+    completed_projects: form.completed_projects || null,
   }
 
   let masterId = master.value?.id
