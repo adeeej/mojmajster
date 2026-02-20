@@ -7,7 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nuxtjs/i18n": "^9.5.3",
@@ -24,7 +27,9 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.13.2",
+    "husky": "^9.1.7",
     "postgres": "^3.4.8",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.9"
   }
 }

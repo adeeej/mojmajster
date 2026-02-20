@@ -134,6 +134,7 @@
 <script setup lang="ts">
 import type { Lead, Master, MasterPhoto, Review } from '~/types/database'
 import { categoryIconMap } from '~/composables/useCategories'
+import { formatDate } from '~/utils/strings'
 
 const route = useRoute()
 const client = useSupabaseClient()
@@ -217,9 +218,6 @@ function showPhone() {
   }
 }
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('sk-SK')
-}
 
 async function submitReview() {
   if (!master.value || reviewForm.rating < 1) return

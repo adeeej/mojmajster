@@ -203,6 +203,7 @@
 
 <script setup lang="ts">
 import type { Category, Lead, Master, MasterPhoto } from '~/types/database'
+import { generateSlug, formatDate } from '~/utils/strings'
 
 definePageMeta({ middleware: 'auth' })
 
@@ -312,10 +313,6 @@ if (master.value) {
   phoneClicksThisMonth.value = phoneRes.count ?? 0
 }
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('sk-SK')
-}
-
 async function markLeadAnswered(lead: Lead) {
   const now = new Date().toISOString()
   await client.from('leads').update({ responded_at: now }).eq('id', lead.id)
@@ -333,15 +330,6 @@ function toggleLanguage(lang: string) {
   const idx = form.languages.indexOf(lang)
   if (idx >= 0) form.languages.splice(idx, 1)
   else form.languages.push(lang)
-}
-
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
 }
 
 async function handlePhotoUpload(event: Event) {
