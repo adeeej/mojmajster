@@ -6,6 +6,44 @@
       <p class="text-yellow-800">{{ $t('profile.pendingMessage') }}</p>
     </UiCard>
 
+    <!-- Analytics Stats -->
+    <div v-if="master" class="mb-8">
+      <h2 class="text-lg font-semibold mb-3">{{ $t('stats.title') }}</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <UiCard class="p-4 text-center">
+          <p class="text-4xl font-bold text-primary">{{ leadsThisMonth }}</p>
+          <p class="text-sm text-muted-foreground mt-1">{{ $t('stats.leadsThisMonth') }}</p>
+        </UiCard>
+        <UiCard class="p-4 text-center">
+          <p class="text-4xl font-bold text-primary">{{ viewsThisMonth }}</p>
+          <p class="text-sm text-muted-foreground mt-1">{{ $t('stats.viewsThisMonth') }}</p>
+        </UiCard>
+        <UiCard class="p-4 text-center">
+          <p class="text-4xl font-bold text-primary">{{ phoneClicksThisMonth }}</p>
+          <p class="text-sm text-muted-foreground mt-1">{{ $t('stats.phoneClicksThisMonth') }}</p>
+        </UiCard>
+      </div>
+    </div>
+
+    <!-- Leads Inbox -->
+    <div v-if="master" class="mb-8">
+      <h2 class="text-lg font-semibold mb-3">{{ $t('leads.title') }}</h2>
+      <div v-if="leads.length > 0" class="space-y-3">
+        <UiCard v-for="lead in leads" :key="lead.id" class="p-4">
+          <div class="flex items-start justify-between gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <span class="font-medium">{{ lead.name }}</span>
+              <UiBadge v-if="!lead.read_at" variant="secondary" class="text-xs">{{ $t('leads.new') }}</UiBadge>
+            </div>
+            <span class="text-xs text-muted-foreground shrink-0">{{ formatDate(lead.created_at) }}</span>
+          </div>
+          <p v-if="lead.phone" class="text-xs text-muted-foreground mb-1">{{ $t('leads.phone') }}: {{ lead.phone }}</p>
+          <p class="text-sm text-muted-foreground">{{ lead.message }}</p>
+        </UiCard>
+      </div>
+      <p v-else class="text-muted-foreground text-sm">{{ $t('leads.noLeads') }}</p>
+    </div>
+
     <form class="space-y-4" @submit.prevent="saveProfile">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -143,7 +181,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Category, Master, MasterPhoto } from '~/types/database'
+import type { Category, Lead, Master, MasterPhoto } from '~/types/database'
 
 definePageMeta({ middleware: 'auth' })
 
@@ -178,6 +216,10 @@ const form = reactive({
 })
 
 const workPhotos = ref<MasterPhoto[]>([])
+const leads = ref<Lead[]>([])
+const leadsThisMonth = ref(0)
+const viewsThisMonth = ref(0)
+const phoneClicksThisMonth = ref(0)
 
 const { data: categories } = await useAsyncData('profile-categories', async () => {
   const { data } = await client.from('categories').select('*').order('name')
@@ -220,6 +262,33 @@ if (master.value) {
     .eq('master_id', master.value.id)
     .order('sort_order')
   workPhotos.value = (existingPhotos || []) as MasterPhoto[]
+
+  // Load leads inbox
+  const { data: leadsData } = await client
+    .from('leads')
+    .select('*')
+    .eq('master_id', master.value.id)
+    .order('created_at', { ascending: false })
+  leads.value = (leadsData || []) as Lead[]
+
+  // Load monthly stats
+  const startOfMonth = new Date()
+  startOfMonth.setDate(1)
+  startOfMonth.setHours(0, 0, 0, 0)
+  const startOfMonthISO = startOfMonth.toISOString()
+
+  const [leadsRes, viewsRes, phoneRes] = await Promise.all([
+    client.from('leads').select('id', { count: 'exact', head: true }).eq('master_id', master.value.id).gte('created_at', startOfMonthISO),
+    client.from('analytics_events').select('id', { count: 'exact', head: true }).eq('master_id', master.value.id).eq('event_type', 'profile_view').gte('created_at', startOfMonthISO),
+    client.from('analytics_events').select('id', { count: 'exact', head: true }).eq('master_id', master.value.id).eq('event_type', 'phone_click').gte('created_at', startOfMonthISO),
+  ])
+  leadsThisMonth.value = leadsRes.count ?? 0
+  viewsThisMonth.value = viewsRes.count ?? 0
+  phoneClicksThisMonth.value = phoneRes.count ?? 0
+}
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('sk-SK')
 }
 
 function toggleLanguage(lang: string) {

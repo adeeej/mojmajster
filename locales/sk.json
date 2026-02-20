@@ -177,5 +177,21 @@
     "back": "Späť",
     "next": "Ďalej",
     "stars": "hviezdičiek"
+  },
+  "stats": {
+    "title": "Vaše štatistiky tento mesiac",
+    "leadsThisMonth": "Dopytov tento mesiac",
+    "viewsThisMonth": "Zobrazení profilu",
+    "phoneClicksThisMonth": "Kliknutí na telefón",
+    "noData": "Zatiaľ žiadne dáta"
+  },
+  "leads": {
+    "title": "Prijaté dopyty",
+    "noLeads": "Zatiaľ žiadne dopyty.",
+    "from": "Od",
+    "phone": "Tel.",
+    "message": "Správa",
+    "received": "Prijaté",
+    "new": "Nový"
   }
 }
