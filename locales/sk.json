@@ -40,7 +40,15 @@
     "results": "výsledkov",
     "km": "km",
     "verified": "Overený",
-    "showPhone": "Zobraziť telefón"
+    "showPhone": "Zobraziť telefón",
+    "select": "Vybrať",
+    "deselect": "Odznačiť",
+    "selectedCount": "Vybraní majstri: {n}",
+    "sendToSelected": "Poslať dopyt",
+    "clearSelection": "Zrušiť výber",
+    "multiLeadTitle": "Dopyt pre {n} majstrov",
+    "multiLeadSubtitle": "Správa bude odoslaná každému vybranému majstrovi.",
+    "multiLeadSuccess": "Dopyt bol úspešne odoslaný!"
   },
   "master": {
     "about": "O majstrovi",
