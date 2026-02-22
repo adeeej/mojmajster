@@ -40,7 +40,7 @@
         <div class="flex flex-wrap justify-center gap-8 text-sm text-muted-foreground">
           <div class="flex items-center gap-2">
             <component :is="Users" class="w-4 h-4 text-primary" />
-            <span><strong class="text-foreground">{{ $t('trust.mastersCount') }}</strong> {{ $t('trust.mastersLabel') }}</span>
+            <span><strong class="text-foreground">{{ mastersCount ?? '...' }}</strong> {{ $t('trust.mastersLabel') }}</span>
           </div>
           <div class="flex items-center gap-2">
             <component :is="ShieldCheck" class="w-4 h-4 text-primary" />
@@ -205,6 +205,14 @@ const searchCity = ref('')
 const { data: categories, pending: categoriesPending } = await useAsyncData('categories', async () => {
   const { data } = await client.from('categories').select('*').order('name')
   return (data || []) as Category[]
+}, { server: false })
+
+const { data: mastersCount } = await useAsyncData('masters-count', async () => {
+  const { count } = await client
+    .from('masters')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'approved')
+  return count || 0
 }, { server: false })
 
 const { data: topMasters, pending: topMastersPending } = await useAsyncData('top-masters', async () => {
