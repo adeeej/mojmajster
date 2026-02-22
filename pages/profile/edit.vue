@@ -36,8 +36,9 @@
               <UiBadge v-if="!lead.read_at" variant="secondary" class="text-xs">{{ $t('leads.new') }}</UiBadge>
               <UiBadge v-if="lead.responded_at" variant="success" class="text-xs">{{ $t('leads.answered') }}</UiBadge>
             </div>
-            <span class="text-xs text-muted-foreground shrink-0">{{ formatDate(lead.created_at) }}</span>
+            <span class="text-xs text-muted-foreground shrink-0">{{ formatDateTime(lead.created_at) }}</span>
           </div>
+          <p class="text-xs text-muted-foreground mb-1">{{ $t('leads.from') }}: {{ lead.email }}</p>
           <p v-if="lead.phone" class="text-xs text-muted-foreground mb-1">{{ $t('leads.phone') }}: {{ lead.phone }}</p>
           <p class="text-sm text-muted-foreground mb-2">{{ lead.message }}</p>
           <UiButton
@@ -204,7 +205,7 @@
 
 <script setup lang="ts">
 import type { Category, Lead, Master, MasterPhoto } from '~/types/database'
-import { generateSlug, formatDate } from '~/utils/strings'
+import { generateSlug, formatDateTime } from '~/utils/strings'
 
 definePageMeta({ middleware: 'auth' })
 
@@ -275,58 +276,51 @@ const { data: master } = await useAsyncData('my-profile', async () => {
   return data as Master | null
 }, { server: false })
 
-// Load existing data
-if (master.value) {
+// Load all master-dependent data once master is available
+const stopProfileLoad = watchEffect(async () => {
+  if (!master.value) return
+  stopProfileLoad()
+
+  const m = master.value
+
   Object.assign(form, {
-    name: master.value.name,
-    business_name: master.value.business_name || '',
-    category_id: master.value.category_id,
-    description: master.value.description || '',
-    phone: master.value.phone || '',
-    email: master.value.email || '',
-    website: master.value.website || '',
-    city: master.value.city,
-    region: master.value.region,
-    service_radius_km: master.value.service_radius_km,
-    languages: master.value.languages || ['SK'],
-    ico: master.value.ico || '',
-    photo_url: master.value.photo_url || '',
-    show_availability: master.value.show_availability || false,
-    year_founded: master.value.year_founded ?? null,
-    completed_projects: master.value.completed_projects ?? null,
+    name: m.name,
+    business_name: m.business_name || '',
+    category_id: m.category_id,
+    description: m.description || '',
+    phone: m.phone || '',
+    email: m.email || '',
+    website: m.website || '',
+    city: m.city,
+    region: m.region,
+    service_radius_km: m.service_radius_km,
+    languages: m.languages || ['SK'],
+    ico: m.ico || '',
+    photo_url: m.photo_url || '',
+    show_availability: m.show_availability || false,
+    year_founded: m.year_founded ?? null,
+    completed_projects: m.completed_projects ?? null,
   })
 
-  // Load work photos
-  const { data: existingPhotos } = await client
-    .from('master_photos')
-    .select('*')
-    .eq('master_id', master.value.id)
-    .order('sort_order')
-  workPhotos.value = (existingPhotos || []) as MasterPhoto[]
-
-  // Load leads inbox
-  const { data: leadsData } = await client
-    .from('leads')
-    .select('*')
-    .eq('master_id', master.value.id)
-    .order('created_at', { ascending: false })
-  leads.value = (leadsData || []) as Lead[]
-
-  // Load monthly stats
   const startOfMonth = new Date()
   startOfMonth.setDate(1)
   startOfMonth.setHours(0, 0, 0, 0)
   const startOfMonthISO = startOfMonth.toISOString()
 
-  const [leadsRes, viewsRes, phoneRes] = await Promise.all([
-    client.from('leads').select('id', { count: 'exact', head: true }).eq('master_id', master.value.id).gte('created_at', startOfMonthISO),
-    client.from('analytics_events').select('id', { count: 'exact', head: true }).eq('master_id', master.value.id).eq('event_type', 'profile_view').gte('created_at', startOfMonthISO),
-    client.from('analytics_events').select('id', { count: 'exact', head: true }).eq('master_id', master.value.id).eq('event_type', 'phone_click').gte('created_at', startOfMonthISO),
+  const [existingPhotos, leadsData, leadsRes, viewsRes, phoneRes] = await Promise.all([
+    client.from('master_photos').select('*').eq('master_id', m.id).order('sort_order'),
+    client.from('leads').select('*').eq('master_id', m.id).order('created_at', { ascending: false }),
+    client.from('leads').select('id', { count: 'exact', head: true }).eq('master_id', m.id).gte('created_at', startOfMonthISO),
+    client.from('analytics_events').select('id', { count: 'exact', head: true }).eq('master_id', m.id).eq('event_type', 'profile_view').gte('created_at', startOfMonthISO),
+    client.from('analytics_events').select('id', { count: 'exact', head: true }).eq('master_id', m.id).eq('event_type', 'phone_click').gte('created_at', startOfMonthISO),
   ])
+
+  workPhotos.value = (existingPhotos.data || []) as MasterPhoto[]
+  leads.value = (leadsData.data || []) as Lead[]
   leadsThisMonth.value = leadsRes.count ?? 0
   viewsThisMonth.value = viewsRes.count ?? 0
   phoneClicksThisMonth.value = phoneRes.count ?? 0
-}
+})
 
 async function markLeadAnswered(lead: Lead) {
   const now = new Date().toISOString()
