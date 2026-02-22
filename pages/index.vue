@@ -180,8 +180,7 @@ const searchCategory = ref('')
 const searchCity = ref('')
 
 const { data: categories } = await useAsyncData('categories', async () => {
-  const { data, error } = await client.from('categories').select('*').order('name')
-  if (error) console.error('Categories error:', error)
+  const { data } = await client.from('categories').select('*').order('name')
   return (data || []) as Category[]
 }, { server: false })
 
