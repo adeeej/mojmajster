@@ -2,7 +2,29 @@
   "home": {
     "topMasters": "Top majstri",
     "ctaTitle": "Ste majster? Zaregistrujte sa zadarmo!",
-    "ctaText": "Získajte viditeľnosť v regióne Kysúc. Registrácia a profil sú 100% zadarmo."
+    "ctaText": "Získajte viditeľnosť v regióne Kysúc. Registrácia a profil sú 100% zadarmo.",
+    "ctaLeads": "Získajte nové zákazky vo vašom okolí."
+  },
+  "trust": {
+    "mastersCount": "120+",
+    "mastersLabel": "majstrov v databáze",
+    "verifiedLabel": "Overené profily",
+    "localLabel": "Lokálne pre Kysuce"
+  },
+  "why": {
+    "title": "Prečo MojMajster?",
+    "item1Title": "Overení remeselníci",
+    "item1Desc": "Každý profil ručne schvaľujeme. Len skutočné, lokálne firmy a živnostníci.",
+    "item2Title": "Lokálna komunita",
+    "item2Desc": "Majstri z regiónu Kysuce. Odporúčajú ich miestni ľudia.",
+    "item3Title": "Rýchly kontakt",
+    "item3Desc": "Dopyt odošlete za 30 sekúnd. Bez registrácie, úplne zadarmo.",
+    "item4Title": "Bez skrytých poplatkov",
+    "item4Desc": "Pre zákazníkov vždy 100% zadarmo. Žiadne poplatky, žiadne prekvapenia."
+  },
+  "seo": {
+    "title": "Nájdite remeselníkov v regióne Kysuce",
+    "text": "MojMajster pomáha ľuďom nájsť spoľahlivých remeselníkov v oblasti Kysúc. Či už hľadáte kominára v Čadci, elektrikára v Kysuckom Novom Meste alebo murára v Turzovke, na našej platforme nájdete overených odborníkov vo vašom okolí. Jednoducho si vyberte remeslo, pozrite profily majstrov a kontaktujte ich priamo — bez registrácie a zadarmo."
   },
   "site": {
     "name": "MojMajster",
@@ -19,10 +41,12 @@
     "logout": "Odhlásiť sa"
   },
   "hero": {
-    "title": "Nájdite overených majstrov na Kysuciach",
-    "subtitle": "Murári, strechári, elektrikári a ďalší remeselníci vo vašom okolí",
+    "title": "Potrebujete majstra?",
+    "titleHighlight": "Nájdite overeného odborníka na Kysuciach",
+    "subtitle": "Za pár minút, bez registrácie. Overení remeselníci vo vašom okolí.",
     "searchPlaceholder": "Aké remeslo hľadáte?",
-    "locationPlaceholder": "Mesto alebo obec",
+    "categoryPlaceholder": "Vyberte remeslo (napr. kominár)",
+    "locationPlaceholder": "Zadajte mesto (napr. Čadca)",
     "searchButton": "Hľadať"
   },
   "categories": {
@@ -33,14 +57,24 @@
     "title": "Výsledky hľadania",
     "filters": "Filtre",
     "category": "Remeslo",
-    "location": "Lokalita",
+    "location": "Zadajte mesto...",
     "radius": "Okruh",
     "allCategories": "Všetky remeslá",
     "noResults": "Žiadne výsledky. Skúste upraviť filtre.",
     "results": "výsledkov",
     "km": "km",
     "verified": "Overený",
-    "showPhone": "Zobraziť telefón"
+    "showPhone": "Zobraziť telefón",
+    "select": "Vybrať",
+    "deselect": "Odznačiť",
+    "selectedCount": "Vybraní majstri: {n}",
+    "sendToSelected": "Poslať dopyt",
+    "clearSelection": "Zrušiť výber",
+    "multiLeadTitle": "Dopyt pre {n} majstrov",
+    "multiLeadSubtitle": "Správa bude odoslaná každému vybranému majstrovi.",
+    "multiLeadSuccess": "Dopyt bol úspešne odoslaný!",
+    "loadMore": "Načítať ďalšie",
+    "showing": "Zobrazených {shown} z {total} výsledkov"
   },
   "master": {
     "about": "O majstrovi",
@@ -54,7 +88,11 @@
     "ico": "IČO",
     "website": "Webová stránka",
     "noPhotos": "Zatiaľ žiadne fotky",
-    "noReviews": "Zatiaľ žiadne recenzie"
+    "noReviews": "Zatiaľ žiadne recenzie",
+    "yearFounded": "Na trhu od",
+    "completedProjects": "realizácií",
+    "responseRate": "Miera odpovedí",
+    "respondedFast": "Odpovedá rýchlo"
   },
   "contact": {
     "title": "Pošlite dopyt",
@@ -121,7 +159,9 @@
     "saveSuccess": "Profil bol uložený!",
     "saveError": "Chyba pri ukladaní. Skúste to znova.",
     "pendingMessage": "Váš profil čaká na schválenie administrátorom.",
-    "selectCategory": "Vyberte kategóriu"
+    "selectCategory": "Vyberte kategóriu",
+    "yearFounded": "Rok založenia / začiatok podnikania",
+    "completedProjects": "Počet realizácií (orientačne)"
   },
   "admin": {
     "dashboard": "Dashboard",
@@ -145,19 +185,25 @@
     "categoryIcon": "Ikona",
     "noReviews": "Žiadne recenzie na schválenie.",
     "noProfiles": "Žiadne profily.",
-    "verified": "Overený"
+    "verified": "Overený",
+    "messages": "Kontaktné správy",
+    "noMessages": "Žiadne nové správy.",
+    "markRead": "Označiť ako prečítané"
   },
   "footer": {
     "rights": "Všetky práva vyhradené",
-    "about": "O nás",
+    "about": "O projekte",
+    "aboutText": "Lokálna platforma pre región Kysuce, ktorá spája zákazníkov s overenými remeselníkmi.",
     "contact": "Kontakt",
+    "contactEmail": "info@mojmajster.sk",
     "privacy": "Ochrana súkromia",
     "terms": "Podmienky používania",
     "forMasters": "Pre majstrov",
-    "mason": "Murár",
-    "roofer": "Strechár",
-    "electrician": "Elektrikár",
-    "plumber": "Inštalatér"
+    "popularSearches": "Populárne hľadania",
+    "mason": "Murár na Kysuciach",
+    "roofer": "Strechár na Kysuciach",
+    "electrician": "Elektrikár na Kysuciach",
+    "plumber": "Inštalatér na Kysuciach"
   },
   "availability": {
     "title": "Dostupnosť",
@@ -177,5 +223,23 @@
     "back": "Späť",
     "next": "Ďalej",
     "stars": "hviezdičiek"
+  },
+  "stats": {
+    "title": "Vaše štatistiky tento mesiac",
+    "leadsThisMonth": "Dopytov tento mesiac",
+    "viewsThisMonth": "Zobrazení profilu",
+    "phoneClicksThisMonth": "Kliknutí na telefón",
+    "noData": "Zatiaľ žiadne dáta"
+  },
+  "leads": {
+    "title": "Prijaté dopyty",
+    "noLeads": "Zatiaľ žiadne dopyty.",
+    "from": "Od",
+    "phone": "Tel.",
+    "message": "Správa",
+    "received": "Prijaté",
+    "new": "Nový",
+    "markAnswered": "Označiť ako odpovedané",
+    "answered": "Odpovedané"
   }
 }
