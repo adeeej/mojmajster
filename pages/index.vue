@@ -59,17 +59,29 @@
       <div class="container mx-auto px-4">
         <h2 class="text-2xl font-bold mb-8 text-center">{{ $t('categories.title') }}</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          <NuxtLink
-            v-for="cat in categories"
-            :key="cat.id"
-            :to="`/search?category=${cat.slug}`"
-            class="flex flex-col items-center gap-3 p-4 rounded-lg border bg-background hover:border-primary hover:bg-primary/5 transition-colors group"
-          >
-            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-              <component :is="getLucideIcon(cat.icon)" class="w-5 h-5 text-primary" />
+          <template v-if="categoriesPending">
+            <div
+              v-for="n in 15"
+              :key="n"
+              class="flex flex-col items-center gap-3 p-4 rounded-lg border bg-background animate-pulse"
+            >
+              <div class="w-10 h-10 rounded-lg bg-muted"></div>
+              <div class="h-3 bg-muted rounded w-16"></div>
             </div>
-            <span class="text-sm font-medium text-center leading-tight">{{ cat.name }}</span>
-          </NuxtLink>
+          </template>
+          <template v-else>
+            <NuxtLink
+              v-for="cat in categories"
+              :key="cat.id"
+              :to="`/search?category=${cat.slug}`"
+              class="flex flex-col items-center gap-3 p-4 rounded-lg border bg-background hover:border-primary hover:bg-primary/5 transition-colors group"
+            >
+              <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <component :is="getLucideIcon(cat.icon)" class="w-5 h-5 text-primary" />
+              </div>
+              <span class="text-sm font-medium text-center leading-tight">{{ cat.name }}</span>
+            </NuxtLink>
+          </template>
         </div>
       </div>
     </section>
@@ -112,11 +124,22 @@
     </section>
 
     <!-- Top Masters -->
-    <section v-if="topMasters?.length" class="py-16">
+    <section class="py-16">
       <div class="container mx-auto px-4">
         <h2 class="text-2xl font-bold mb-8 text-center">{{ $t('home.topMasters') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <MasterCard v-for="master in topMasters" :key="master.id" :master="master" />
+          <template v-if="topMastersPending">
+            <UiCard v-for="n in 3" :key="n" class="overflow-hidden animate-pulse">
+              <div class="aspect-[4/3] bg-muted"></div>
+              <div class="p-4 space-y-2">
+                <div class="h-4 bg-muted rounded w-3/4"></div>
+                <div class="h-3 bg-muted rounded w-1/2"></div>
+              </div>
+            </UiCard>
+          </template>
+          <template v-else>
+            <MasterCard v-for="master in topMasters" :key="master.id" :master="master" />
+          </template>
         </div>
       </div>
     </section>
@@ -179,12 +202,12 @@ const client = useSupabaseClient()
 const searchCategory = ref('')
 const searchCity = ref('')
 
-const { data: categories } = await useAsyncData('categories', async () => {
+const { data: categories, pending: categoriesPending } = await useAsyncData('categories', async () => {
   const { data } = await client.from('categories').select('*').order('name')
   return (data || []) as Category[]
 }, { server: false })
 
-const { data: topMasters } = await useAsyncData('top-masters', async () => {
+const { data: topMasters, pending: topMastersPending } = await useAsyncData('top-masters', async () => {
   // TODO: Premium - sort by is_premium DESC first, then by avg_rating or created_at
   // Premium masters appear higher in Top Masters section on homepage
   const { data } = await client

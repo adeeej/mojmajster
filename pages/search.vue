@@ -31,7 +31,18 @@
       {{ $t('search.showing', { shown: masters.length, total: totalCount }) }}
     </p>
 
-    <div v-if="masters.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Initial loading skeleton -->
+    <div v-if="loadingMore && masters.length === 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <UiCard v-for="n in 12" :key="n" class="overflow-hidden animate-pulse">
+        <div class="aspect-[4/3] bg-muted"></div>
+        <div class="p-4 space-y-2">
+          <div class="h-4 bg-muted rounded w-3/4"></div>
+          <div class="h-3 bg-muted rounded w-1/2"></div>
+        </div>
+      </UiCard>
+    </div>
+
+    <div v-else-if="masters.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <MasterCard
         v-for="master in masters"
         :key="master.id"
@@ -41,7 +52,7 @@
         @toggle="toggleMaster(master.id)"
       />
     </div>
-    <div v-else-if="!loadingMore" class="text-center py-16 text-muted-foreground">
+    <div v-else class="text-center py-16 text-muted-foreground">
       {{ $t('search.noResults') }}
     </div>
 
