@@ -50,11 +50,13 @@ async function handleRegister() {
   errorMsg.value = ''
   successMsg.value = ''
 
+  const { siteUrl } = useRuntimeConfig().public
+
   const { error } = await client.auth.signUp({
     email: email.value,
     password: password.value,
     options: {
-      emailRedirectTo: 'https://mojmajster.vercel.app/login',
+      emailRedirectTo: `${siteUrl}/login`,
     },
   })
 
