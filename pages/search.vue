@@ -210,6 +210,7 @@ function toggleMaster(id: number) {
 }
 
 function applyFilters() {
+  selectedIds.value = []
   navigateTo({
     path: '/search',
     query: {
