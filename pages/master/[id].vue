@@ -216,14 +216,15 @@ const { data: reviews, refresh: refreshReviews } = await useAsyncData(`master-re
 const responseRate = computed(() => master.value?.response_rate ?? null)
 
 // Track profile view once master data is available
-watch(master, (val) => {
-  if (val) {
+const stopTracking = watchEffect(() => {
+  if (master.value) {
     client.from('analytics_events').insert({
-      master_id: val.id,
+      master_id: master.value.id,
       event_type: 'profile_view',
     })
+    stopTracking()
   }
-}, { immediate: true, once: true })
+})
 
 function getCategoryIcon(icon?: string) {
   return categoryIconMap[icon || 'wrench'] || '🔧'
