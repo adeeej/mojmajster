@@ -1,5 +1,20 @@
 <template>
-  <div v-if="master" class="container mx-auto px-4 py-8">
+  <!-- Skeleton loading -->
+  <div v-if="masterPending" class="container mx-auto px-4 py-8 animate-pulse">
+    <div class="flex flex-col md:flex-row gap-6 mb-8">
+      <div class="w-32 h-32 rounded-xl bg-muted shrink-0"></div>
+      <div class="flex-1 space-y-3 py-2">
+        <div class="h-8 bg-muted rounded w-1/2"></div>
+        <div class="h-4 bg-muted rounded w-1/3"></div>
+        <div class="h-4 bg-muted rounded w-1/4"></div>
+      </div>
+    </div>
+    <div class="h-4 bg-muted rounded w-full mb-2"></div>
+    <div class="h-4 bg-muted rounded w-5/6 mb-2"></div>
+    <div class="h-4 bg-muted rounded w-4/6"></div>
+  </div>
+
+  <div v-else-if="master" class="container mx-auto px-4 py-8">
     <!-- Profile Header -->
     <div class="flex flex-col md:flex-row gap-6 mb-8">
       <div class="w-32 h-32 rounded-xl bg-muted flex items-center justify-center shrink-0 overflow-hidden">
@@ -126,8 +141,12 @@
       </form>
     </section>
   </div>
-  <div v-else class="container mx-auto px-4 py-16 text-center text-muted-foreground">
-    {{ $t('common.loading') }}
+  <div v-else class="container mx-auto px-4 py-16 text-center">
+    <p class="text-2xl font-semibold mb-2">404</p>
+    <p class="text-muted-foreground mb-6">Profil majstra nebol nájdený.</p>
+    <NuxtLink to="/search">
+      <UiButton variant="outline">Späť na vyhľadávanie</UiButton>
+    </NuxtLink>
   </div>
 </template>
 
@@ -162,7 +181,7 @@ const leadForm = reactive({
   message: '',
 })
 
-const { data: master } = await useAsyncData(`master-${slug}`, async () => {
+const { data: master, pending: masterPending } = await useAsyncData(`master-${slug}`, async () => {
   const { data } = await client
     .from('masters')
     .select('*, category:categories(*)')
@@ -196,15 +215,15 @@ const { data: reviews, refresh: refreshReviews } = await useAsyncData(`master-re
 // Response rate is stored on the master record (updated when master marks leads as answered)
 const responseRate = computed(() => master.value?.response_rate ?? null)
 
-// Track profile view on client after mount (master.value is guaranteed to be loaded)
-onMounted(() => {
-  if (master.value) {
+// Track profile view once master data is available
+watch(master, (val) => {
+  if (val) {
     client.from('analytics_events').insert({
-      master_id: master.value.id,
+      master_id: val.id,
       event_type: 'profile_view',
     })
   }
-})
+}, { immediate: true, once: true })
 
 function getCategoryIcon(icon?: string) {
   return categoryIconMap[icon || 'wrench'] || '🔧'
