@@ -72,7 +72,9 @@
     "clearSelection": "Zrušiť výber",
     "multiLeadTitle": "Dopyt pre {n} majstrov",
     "multiLeadSubtitle": "Správa bude odoslaná každému vybranému majstrovi.",
-    "multiLeadSuccess": "Dopyt bol úspešne odoslaný!"
+    "multiLeadSuccess": "Dopyt bol úspešne odoslaný!",
+    "loadMore": "Načítať ďalšie",
+    "showing": "Zobrazených {shown} z {total} výsledkov"
   },
   "master": {
     "about": "O majstrovi",

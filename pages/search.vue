@@ -28,10 +28,10 @@
 
     <!-- Results -->
     <p class="text-sm text-muted-foreground mb-4">
-      {{ masters?.length || 0 }} {{ $t('search.results') }}
+      {{ $t('search.showing', { shown: masters.length, total: totalCount }) }}
     </p>
 
-    <div v-if="masters && masters.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div v-if="masters.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <MasterCard
         v-for="master in masters"
         :key="master.id"
@@ -41,8 +41,15 @@
         @toggle="toggleMaster(master.id)"
       />
     </div>
-    <div v-else class="text-center py-16 text-muted-foreground">
+    <div v-else-if="!loadingMore" class="text-center py-16 text-muted-foreground">
       {{ $t('search.noResults') }}
+    </div>
+
+    <!-- Load more -->
+    <div v-if="hasMore" class="mt-8 text-center">
+      <UiButton variant="outline" :disabled="loadingMore" @click="loadMore">
+        {{ loadingMore ? $t('common.loading') : $t('search.loadMore') }}
+      </UiButton>
     </div>
   </div>
 
@@ -134,32 +141,56 @@ const { data: categories } = await useAsyncData('search-categories', async () =>
   return (data || []) as Category[]
 }, { server: false })
 
-const { data: masters, refresh } = await useAsyncData(
-  'search-masters',
-  async () => {
-    let query = client
-      .from('masters')
-      .select('*, category:categories(*)')
-      .eq('status', 'approved')
-      // TODO: Premium - add .order('is_premium', { ascending: false }) as first sort key
-      // Premium masters appear at the top of search results
-      .order('verified', { ascending: false })
-      .order('created_at', { ascending: false })
+const PAGE_SIZE = 12
+const page = ref(0)
+const masters = ref<Master[]>([])
+const totalCount = ref(0)
+const loadingMore = ref(false)
+const hasMore = computed(() => masters.value.length < totalCount.value)
 
-    if (filters.category) {
-      const cat = categories.value?.find(c => c.slug === filters.category)
-      if (cat) query = query.eq('category_id', cat.id)
-    }
+async function fetchMasters(reset = false) {
+  if (reset) {
+    page.value = 0
+    masters.value = []
+  }
 
-    if (filters.city) {
-      query = query.ilike('city', `%${filters.city}%`)
-    }
+  loadingMore.value = true
+  const from = page.value * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
 
-    const { data } = await query.limit(50)
-    return (data || []) as Master[]
-  },
-  { watch: [() => filters.category, () => filters.city], server: false }
-)
+  let query = client
+    .from('masters')
+    .select('*, category:categories(*)', { count: 'exact' })
+    .eq('status', 'approved')
+    // TODO: Premium - add .order('is_premium', { ascending: false }) as first sort key
+    // Premium masters appear at the top of search results
+    .order('verified', { ascending: false })
+    .order('created_at', { ascending: false })
+    .range(from, to)
+
+  if (filters.category) {
+    const cat = categories.value?.find(c => c.slug === filters.category)
+    if (cat) query = query.eq('category_id', cat.id)
+  }
+
+  if (filters.city) {
+    query = query.ilike('city', `%${filters.city}%`)
+  }
+
+  const { data, count } = await query
+  const newMasters = (data || []) as Master[]
+
+  masters.value = reset ? newMasters : [...masters.value, ...newMasters]
+  totalCount.value = count || 0
+  loadingMore.value = false
+}
+
+async function loadMore() {
+  page.value++
+  await fetchMasters(false)
+}
+
+onMounted(() => fetchMasters(true))
 
 function toggleMaster(id: number) {
   const idx = selectedIds.value.indexOf(id)
@@ -175,7 +206,7 @@ function applyFilters() {
       ...(filters.city && { city: filters.city }),
     },
   })
-  refresh()
+  fetchMasters(true)
 }
 
 async function submitMultiLead() {
