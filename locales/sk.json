@@ -183,7 +183,10 @@
     "categoryIcon": "Ikona",
     "noReviews": "Žiadne recenzie na schválenie.",
     "noProfiles": "Žiadne profily.",
-    "verified": "Overený"
+    "verified": "Overený",
+    "messages": "Kontaktné správy",
+    "noMessages": "Žiadne nové správy.",
+    "markRead": "Označiť ako prečítané"
   },
   "footer": {
     "rights": "Všetky práva vyhradené",

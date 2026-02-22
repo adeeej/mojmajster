@@ -82,3 +82,12 @@ export interface AnalyticsEvent {
   event_type: EventType
   created_at: string
 }
+
+export interface ContactMessage {
+  id: number
+  name: string
+  email: string
+  message: string
+  read_at: string | null
+  created_at: string
+}

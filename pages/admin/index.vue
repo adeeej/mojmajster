@@ -49,11 +49,27 @@
       </UiCard>
     </div>
     <p v-else class="text-muted-foreground">{{ $t('admin.noReviews') }}</p>
+
+    <!-- Contact messages -->
+    <h2 class="text-xl font-semibold mt-8 mb-4">{{ $t('admin.messages') }}</h2>
+    <div v-if="contactMessages && contactMessages.length > 0" class="space-y-3">
+      <UiCard v-for="msg in contactMessages" :key="msg.id" class="p-4">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="font-medium">{{ msg.name }} <span class="text-muted-foreground font-normal text-sm">&lt;{{ msg.email }}&gt;</span></p>
+            <p class="text-sm mt-1">{{ msg.message }}</p>
+            <p class="text-xs text-muted-foreground mt-2">{{ new Date(msg.created_at).toLocaleString('sk') }}</p>
+          </div>
+          <UiButton size="sm" class="shrink-0" @click="markMessageRead(msg.id)">{{ $t('admin.markRead') }}</UiButton>
+        </div>
+      </UiCard>
+    </div>
+    <p v-else class="text-muted-foreground">{{ $t('admin.noMessages') }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Review } from '~/types/database'
+import type { Review, ContactMessage } from '~/types/database'
 
 definePageMeta({ middleware: 'admin' })
 
@@ -90,5 +106,15 @@ async function updateReviewStatus(reviewId: number, status: 'approved' | 'reject
     body: { status },
   })
   refreshReviews()
+}
+
+const { data: contactMessages, refresh: refreshMessages } = await useAsyncData('contact-messages', async () => {
+  const data = await $fetch<ContactMessage[]>('/api/admin/contact-messages')
+  return data
+}, { server: false })
+
+async function markMessageRead(id: number) {
+  await $fetch(`/api/admin/contact-messages/${id}`, { method: 'PATCH' })
+  refreshMessages()
 }
 </script>
