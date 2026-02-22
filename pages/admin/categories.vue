@@ -2,12 +2,7 @@
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6">{{ $t('admin.categories') }}</h1>
 
-    <!-- Admin Nav -->
-    <div class="flex gap-4 mb-8">
-      <NuxtLink to="/admin" class="text-muted-foreground hover:text-foreground">{{ $t('admin.dashboard') }}</NuxtLink>
-      <NuxtLink to="/admin/profiles" class="text-muted-foreground hover:text-foreground">{{ $t('admin.profiles') }}</NuxtLink>
-      <NuxtLink to="/admin/categories" class="text-primary font-medium">{{ $t('admin.categories') }}</NuxtLink>
-    </div>
+    <AdminNav active="categories" />
 
     <!-- Add Category -->
     <UiCard class="p-4 mb-6">
