@@ -159,6 +159,7 @@
         <label class="block text-sm font-medium mb-1">{{ $t('profile.workPhotos') }}</label>
         <!-- TODO: Premium - limit free tier to 5 photos, Premium gets unlimited -->
         <input type="file" accept="image/*" multiple class="text-sm" @change="handleWorkPhotosUpload" />
+        <p v-if="uploadError" class="text-destructive text-sm mt-1">{{ uploadError }}</p>
         <div v-if="workPhotos.length > 0" class="mt-2 grid grid-cols-4 gap-2">
           <div v-for="(photo, i) in workPhotos" :key="i" class="aspect-square rounded-lg overflow-hidden relative">
             <img :src="photo.url" alt="" class="w-full h-full object-cover" />
@@ -219,6 +220,20 @@ const saving = ref(false)
 const saveSuccess = ref(false)
 const saveError = ref(false)
 const saveErrorMsg = ref('')
+const uploadError = ref('')
+
+const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif']
+const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
+
+function validateImageFile(file: File): string | null {
+  if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+    return 'Povolené sú len obrázky (JPEG, PNG, WebP, GIF, AVIF).'
+  }
+  if (file.size > MAX_FILE_SIZE) {
+    return 'Maximálna veľkosť súboru je 5 MB.'
+  }
+  return null
+}
 
 const form = reactive({
   name: '',
@@ -336,6 +351,13 @@ async function handlePhotoUpload(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file || !user.value) return
 
+  uploadError.value = ''
+  const validationError = validateImageFile(file)
+  if (validationError) {
+    uploadError.value = validationError
+    return
+  }
+
   const ext = file.name.split('.').pop()
   const path = `profiles/${user.value.id}/avatar.${ext}`
 
@@ -350,7 +372,15 @@ async function handleWorkPhotosUpload(event: Event) {
   const files = (event.target as HTMLInputElement).files
   if (!files || !user.value) return
 
+  uploadError.value = ''
+
   for (const file of Array.from(files)) {
+    const validationError = validateImageFile(file)
+    if (validationError) {
+      uploadError.value = validationError
+      continue
+    }
+
     const ext = file.name.split('.').pop()
     const path = `profiles/${user.value.id}/work-${crypto.randomUUID()}.${ext}`
 
