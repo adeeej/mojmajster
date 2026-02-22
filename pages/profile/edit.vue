@@ -352,7 +352,7 @@ async function handleWorkPhotosUpload(event: Event) {
 
   for (const file of Array.from(files)) {
     const ext = file.name.split('.').pop()
-    const path = `profiles/${user.value.id}/work-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+    const path = `profiles/${user.value.id}/work-${crypto.randomUUID()}.${ext}`
 
     const { error } = await client.storage.from('photos').upload(path, file)
     if (!error) {
