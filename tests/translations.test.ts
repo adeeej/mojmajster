@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import sk from '../locales/sk.json'
+import sk from '../i18n/locales/sk.json'
 
 // Recursively collect all leaf key paths from a nested object
 function getLeafKeys(obj: Record<string, any>, prefix = ''): string[] {
