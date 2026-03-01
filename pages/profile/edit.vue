@@ -200,6 +200,15 @@
       <p v-if="saveSuccess" class="text-green-600 text-sm">{{ $t('profile.saveSuccess') }}</p>
       <p v-if="saveError" class="text-destructive text-sm">{{ $t('profile.saveError') }}: {{ saveErrorMsg }}</p>
     </form>
+
+    <!-- Danger Zone -->
+    <UiCard v-if="master" class="mt-8 p-4 border-red-300 bg-red-50">
+      <h2 class="text-lg font-semibold text-red-700 mb-2">{{ $t('profile.dangerZone') }}</h2>
+      <p class="text-sm text-red-600 mb-4">{{ $t('profile.dangerZoneWarning') }}</p>
+      <UiButton variant="destructive" @click="deleteProfile">
+        {{ $t('profile.deleteProfile') }}
+      </UiButton>
+    </UiCard>
   </div>
 </template>
 
@@ -394,6 +403,13 @@ async function handleWorkPhotosUpload(event: Event) {
 
 function removeWorkPhoto(index: number) {
   workPhotos.value.splice(index, 1)
+}
+
+async function deleteProfile() {
+  const { t } = useI18n()
+  if (!window.confirm(t('profile.deleteConfirm'))) return
+  await $fetch('/api/masters/me', { method: 'DELETE' })
+  await navigateTo('/')
 }
 
 async function saveProfile() {

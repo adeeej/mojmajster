@@ -53,6 +53,9 @@
             >
               {{ m.verified ? $t('admin.unverify') : $t('admin.verify') }}
             </UiButton>
+            <UiButton size="sm" variant="destructive" @click="deleteMaster(m.id, m.name)">
+              {{ $t('admin.delete') }}
+            </UiButton>
           </div>
         </div>
       </UiCard>
@@ -85,6 +88,13 @@ async function updateStatus(masterId: number, status: string) {
     method: 'PATCH',
     body: { status },
   })
+  refreshMasters()
+}
+
+async function deleteMaster(masterId: number, name: string) {
+  const { t } = useI18n()
+  if (!window.confirm(t('admin.deleteConfirm', { name }))) return
+  await $fetch(`/api/admin/masters/${masterId}`, { method: 'DELETE' })
   refreshMasters()
 }
 

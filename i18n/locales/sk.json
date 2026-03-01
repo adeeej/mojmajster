@@ -160,7 +160,11 @@
     "pendingMessage": "Váš profil čaká na schválenie administrátorom.",
     "selectCategory": "Vyberte kategóriu",
     "yearFounded": "Rok založenia / začiatok podnikania",
-    "completedProjects": "Počet realizácií (orientačne)"
+    "completedProjects": "Počet realizácií (orientačne)",
+    "dangerZone": "Nebezpečná zóna",
+    "dangerZoneWarning": "Zmazanie profilu je nevratné. Všetky vaše dáta (fotky, recenzie, dopyty, štatistiky) budú natrvalo odstránené.",
+    "deleteProfile": "Zmazať môj profil",
+    "deleteConfirm": "Naozaj chcete zmazať svoj profil? Táto akcia je nevratná a všetky vaše dáta budú odstránené."
   },
   "admin": {
     "dashboard": "Dashboard",
@@ -184,6 +188,7 @@
     "categoryIcon": "Ikona",
     "noReviews": "Žiadne recenzie na schválenie.",
     "noProfiles": "Žiadne profily.",
+    "deleteConfirm": "Naozaj chcete zmazať profil majstra {name}? Táto akcia je nevratná.",
     "verified": "Overený",
     "messages": "Kontaktné správy",
     "noMessages": "Žiadne nové správy.",
